@@ -26,6 +26,20 @@
 /*
  * The type definitions.  These are from Ted Ts'o's serial.h
  */
+#define PORT_UNKNOWN	0
+#define PORT_8250	1
+#define PORT_16450	2
+#define PORT_16550	3
+#define PORT_16550A	4
+#define PORT_CIRRUS	5
+#define PORT_16650	6
+#define PORT_16650V2	7
+#define PORT_16750	8
+#define PORT_STARTECH	9
+#define PORT_16C950	10
+#define PORT_16654	11
+#define PORT_16850	12
+#define PORT_RSA	13
 #define PORT_NS16550A	14
 #define PORT_XSCALE	15
 #define PORT_RM9000	16	/* PMC-Sierra RM9xxx internal UART */
@@ -134,6 +148,8 @@
 /*Digi jsm */
 #define PORT_JSM        69
 
+#define PORT_PNX8XXX	70
+
 /* SUN4V Hypervisor Console */
 #define PORT_SUNHV	72
 
@@ -208,6 +224,9 @@
 /* Atheros AR933X SoC */
 #define PORT_AR933X	99
 
+/* Energy Micro efm32 SoC */
+#define PORT_EFMUART   100
+
 /* ARC (Synopsys) on-chip UART */
 #define PORT_ARC       101
 
@@ -271,7 +290,7 @@
 /* Sunix UART */
 #define PORT_SUNIX	121
 
-/* Freescale LINFlexD UART */
+/* Freescale Linflex UART */
 #define PORT_LINFLEXUART	122
 
 #endif /* LINUX_SERIAL_CORE_H */

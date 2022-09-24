@@ -17,7 +17,7 @@ old_library='libbfd.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/tmp/m1164/build/x86_64-linux-musl/x86_64-linux-musl/obj_binutils/zlib -lz'
+dependency_libs=' -L/tmp/m1064/build/x86_64-linux-musl/x86_64-linux-musl/obj_binutils/zlib -lz'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

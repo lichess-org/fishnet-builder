@@ -349,7 +349,6 @@
 #define __NR_openat2		437
 #define __NR_pidfd_getfd	438
 #define __NR_faccessat2		439
-#define __NR_process_madvise	440
 
 #define SYS_read				0
 #define SYS_write				1
@@ -702,4 +701,3 @@
 #define SYS_openat2		437
 #define SYS_pidfd_getfd	438
 #define SYS_faccessat2		439
-#define SYS_process_madvise	440
