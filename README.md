@@ -10,4 +10,3 @@ Components
 * Rust
 * cargo auditable
 * Intel SDE (proprietary)
-* g++ from https://musl.cc/
