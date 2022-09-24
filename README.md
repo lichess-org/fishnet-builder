@@ -6,7 +6,6 @@ Docker image for an environment that can produce fully static Stockfish builds.
 Components
 ----------
 
-* Debian
-* Rust
-* cargo auditable
+* Alpine Linux
 * Intel SDE (proprietary)
+* Rust
