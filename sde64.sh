@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 _args="$@"
 mount -t proc none /debian/proc
 mkdir -p "/debian/$PWD"
