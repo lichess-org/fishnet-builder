@@ -9,3 +9,4 @@ Components
 * Alpine Linux
 * Intel SDE (proprietary)
 * Rust
+* cargo auditable
