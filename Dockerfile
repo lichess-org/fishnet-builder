@@ -27,4 +27,4 @@ RUN cargo install cargo-auditable
 ENV LDFLAGS=-static
 
 ARG TARGETARCH
-FROM fishnet-builder-${TARGETARCH} as fishnet-builder
+FROM fishnet-builder-${TARGETARCH}
