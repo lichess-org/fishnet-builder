@@ -26,6 +26,8 @@ jobs:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/fishnet-builder
           tags: |
             type=ref,event=branch
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{version}}
         if: github.event_name == 'push'
       - uses: docker/build-push-action@v4
