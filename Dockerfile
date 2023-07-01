@@ -3,7 +3,7 @@ WORKDIR /fishnet
 COPY sgerrand.rsa.pub /etc/apk/keys/sgerrand.rsa.pub
 COPY glibc-2.35-r1.apk /opt/glibc.apk
 COPY glibc-bin-2.35-r1.apk /opt/glibc-bin.apk
-COPY sde-external-9.0.0-2021-11-07-lin /opt/sde-external
+COPY sde-external-9.21.1-2023-04-24-lin /opt/sde-external
 COPY config-amd64.toml /usr/local/cargo/config.toml
 RUN apk --no-cache add git make curl g++ rustup /opt/glibc.apk /opt/glibc-bin.apk; \
     rm /opt/glibc.apk /opt/glibc-bin.apk
