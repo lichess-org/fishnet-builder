@@ -15,7 +15,7 @@ jobs:
       - uses: docker/setup-buildx-action@v2
         with:
           platforms: linux/amd64,linux/arm64
-      - uses: docker/build-push-action@v3
+      - uses: docker/build-push-action@v4
         id: docker_build_amd64
         with:
           context: .
@@ -23,7 +23,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha
           load: true
-      - uses: docker/build-push-action@v3
+      - uses: docker/build-push-action@v4
         id: docker_build_arm64
         with:
           context: .
@@ -44,7 +44,7 @@ jobs:
             type=ref,event=branch
             type=semver,pattern={{version}}
         if: github.event_name == 'push'
-      - uses: docker/build-push-action@v3
+      - uses: docker/build-push-action@v4
         with:
           context: .
           platforms: linux/amd64,linux,arm64
