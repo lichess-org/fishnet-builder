@@ -14,7 +14,7 @@ RUN cargo install cargo-auditable
 RUN ln -s /opt/sde-external/misc/ /usr/glibc-compat/lib/; \
     ln -s /opt/sde-external/intel64/ /usr/glibc-compat/lib/
 ENV LDFLAGS=-static \
-    SDE_PATH="/usr/glibc-compat/lib/ld-linux-x86-64.so.2 /opt/sde-external/sde64"
+    SDE_PATH="/usr/glibc-compat/lib/ld-linux-x86-64.so.2 /opt/sde-external/sde64 -future"
 
 FROM --platform=linux/arm64 docker.io/alpine:3 AS fishnet-builder-arm64
 WORKDIR /fishnet
