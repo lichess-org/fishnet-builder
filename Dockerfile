@@ -5,7 +5,7 @@ COPY glibc-2.35-r1.apk /opt/glibc.apk
 COPY glibc-bin-2.35-r1.apk /opt/glibc-bin.apk
 COPY sde-external-9.53.0-2025-03-16-lin /opt/sde-external
 COPY config-amd64.toml /usr/local/cargo/config.toml
-RUN apk --no-cache add git make curl g++ rustup /opt/glibc.apk /opt/glibc-bin.apk; \
+RUN apk --no-cache add git make curl g++ rustup sccache /opt/glibc.apk /opt/glibc-bin.apk; \
     rm /opt/glibc.apk /opt/glibc-bin.apk
 ENV CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH
@@ -19,7 +19,7 @@ ENV LDFLAGS=-static \
 FROM --platform=linux/arm64 docker.io/alpine:3 AS fishnet-builder-arm64
 WORKDIR /fishnet
 COPY config-arm64.toml /usr/local/cargo/config.toml
-RUN apk --no-cache add git make curl g++ rustup
+RUN apk --no-cache add git make curl g++ rustup sccache
 ENV CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH
 RUN rustup-init -y --no-modify-path --profile minimal --default-toolchain stable --target aarch64-unknown-linux-musl
