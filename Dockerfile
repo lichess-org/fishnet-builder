@@ -3,7 +3,7 @@ WORKDIR /fishnet
 COPY sgerrand.rsa.pub /etc/apk/keys/sgerrand.rsa.pub
 COPY glibc-2.35-r1.apk /opt/glibc.apk
 COPY glibc-bin-2.35-r1.apk /opt/glibc-bin.apk
-COPY sde-external-9.53.0-2025-03-16-lin /opt/sde-external
+COPY sde-external-9.58.0-2025-06-16-lin /opt/sde-external
 COPY config-amd64.toml /usr/local/cargo/config.toml
 RUN apk --no-cache --force-overwrite add git make curl g++ rustup sccache /opt/glibc.apk /opt/glibc-bin.apk && rm /opt/glibc.apk /opt/glibc-bin.apk
 ENV CARGO_HOME=/usr/local/cargo \
@@ -12,7 +12,7 @@ RUN rustup-init -y --no-modify-path --profile minimal --default-toolchain stable
 RUN cargo install cargo-auditable
 RUN ln -s /opt/sde-external/misc/ /usr/glibc-compat/lib/ && ln -s /opt/sde-external/intel64/ /usr/glibc-compat/lib/
 ENV LDFLAGS=-static \
-    SDE_PATH="/usr/glibc-compat/lib/ld-linux-x86-64.so.2 /opt/sde-external/sde64 -future"
+    SDE_PATH="/usr/glibc-compat/lib/ld-linux-x86-64.so.2 /opt/sde-external/sde64"
 
 FROM --platform=linux/amd64 fishnet-builder-amd64 AS fishnet-builder-test-amd64
 RUN git clone https://github.com/official-stockfish/Stockfish.git
