@@ -14,6 +14,12 @@ RUN ln -s /opt/sde-external/misc/ /usr/glibc-compat/lib/ && ln -s /opt/sde-exter
 ENV LDFLAGS=-static \
     SDE_PATH="/usr/glibc-compat/lib/ld-linux-x86-64.so.2 /opt/sde-external/sde64 -future"
 
+FROM --platform=linux/amd64 fishnet-builder-amd64 AS fishnet-builder-test-amd64
+RUN git clone https://github.com/official-stockfish/Stockfish.git
+WORKDIR Stockfish/src
+RUN make net
+RUN make ARCH=x86-64-avx512icl WINE_PATH="$SDE_PATH --" profile-build -j
+
 FROM --platform=linux/arm64 docker.io/alpine:3 AS fishnet-builder-arm64
 WORKDIR /fishnet
 COPY config-arm64.toml /usr/local/cargo/config.toml
