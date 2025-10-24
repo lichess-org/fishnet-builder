@@ -33,6 +33,13 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: .
+          target: fishnet-builder-test-amd64
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
           push: ${{ github.event_name == 'push' }}
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
