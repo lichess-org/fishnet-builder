@@ -5,7 +5,7 @@ COPY glibc-2.35-r1.apk /opt/glibc.apk
 COPY glibc-bin-2.35-r1.apk /opt/glibc-bin.apk
 COPY sde-external-9.58.0-2025-06-16-lin /opt/sde-external
 COPY config-amd64.toml /usr/local/cargo/config.toml
-RUN apk --no-cache --force-overwrite add git make curl g++ rustup sccache /opt/glibc.apk /opt/glibc-bin.apk && rm /opt/glibc.apk /opt/glibc-bin.apk
+RUN apk --no-cache add git make curl g++ rustup sccache && (apk add --no-cache /opt/glibc.apk /opt/glibc-bin.apk || echo Partial install intended) && rm /opt/glibc.apk /opt/glibc-bin.apk
 ENV CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH
 RUN rustup-init -y --no-modify-path --profile minimal --default-toolchain stable --target x86_64-unknown-linux-musl
