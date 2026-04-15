@@ -14,4 +14,4 @@ Docker image for an environment that can produce fully static Stockfish builds.
 
 ```sh
 docker buildx build . --target fishnet-builder-test-amd64 --progress=plain
-``
+```
