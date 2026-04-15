@@ -1,0 +1,7 @@
+#!/bin/sh
+thisdir="`cd "$(dirname "$0")"; pwd`"
+
+export PIN_WRAPPER_GCC="${PIN_WRAPPER_GCC:=/opt/intel/icx/compiler/latest/bin/icx}"
+
+exec "$PIN_WRAPPER_GCC" -DPIN_CRT=1 -DPIN_RT -DTARGET_LINUX -m32 -DTARGET_IA32 -DHOST_IA32 -D_arch_long=long -nostdinc -nostdlib -nodefaultlibs \
+"$@" -isystem "$thisdir/../include" -isystem "$thisdir/../include/pinos" -isystem /opt/intel/icx/compiler/latest/lib/clang/17/include/

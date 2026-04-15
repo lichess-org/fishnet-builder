@@ -1,0 +1,8 @@
+#!/bin/sh
+thisdir="`cd "$(dirname "$0")"; pwd`"
+pin_gcc_spec="`mktemp`"
+sh "$thisdir/mk-gcc-specs.sh" "$thisdir/../include" "$thisdir/../lib" "$thisdir/pin.ld.so" "long" > $pin_gcc_spec
+# Use PIN_WRAPPER_GCC or "gcc" if PIN_WRAPPER_GCC is not set.
+PIN_WRAPPER_GCC="${PIN_WRAPPER_GCC:=gcc}"
+exec "$PIN_WRAPPER_GCC" -DPIN_CRT=1 -DPIN_RT -DTARGET_LINUX -m32 -DTARGET_IA32 -DHOST_IA32 -Wl,-melf_i386 -specs "$pin_gcc_spec" "$@"
+rm -f $pin_gcc_spec

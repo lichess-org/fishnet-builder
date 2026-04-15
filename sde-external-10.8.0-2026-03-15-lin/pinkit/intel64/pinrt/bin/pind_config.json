@@ -1,0 +1,24 @@
+{
+    "InjectorServer": {
+        "log": false
+    },
+    "RSCServer": {
+        "ThreadPoolCount": 2,
+        "BufferPoolCount": 0,
+        "ServerTxChannelSize": 2228224,
+        "RSCWindowSize": 256,
+        "log": false,
+        "RPCPlugins": [
+            {
+                "lib": "librsc-rpc-plugin.so",
+                "name": "rsc_rpc_plugin",
+                "log" : false,
+                "//logfilename" : "my_rsc_rpc_plugin.log",
+                "//arguments": [
+                    "dummy_knob1", "1",
+                    "dummy_knob2", "/path/somwhere"
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,72 @@
+#!/bin/bash
+thisdir="`cd "$(dirname "$0")"; pwd`"
+libdir=$thisdir/../lib
+
+PIN_WRAPPER_LINKER="${PIN_WRAPPER_LINKER:=/opt/intel/icx/compiler/latest/bin/icx}"
+
+target_arch="-m32"
+
+crtbeginS="` $PIN_WRAPPER_LINKER -print-file-name=crtbeginS.o $target_arch `"
+crtendS="`   $PIN_WRAPPER_LINKER -print-file-name=crtendS.o   $target_arch `"
+libgcc="`    $PIN_WRAPPER_LINKER -print-file-name=libgcc.a    $target_arch `"
+libgcc_eh="` $PIN_WRAPPER_LINKER -print-file-name=libgcc_eh.a $target_arch `"
+libirc="`    $PIN_WRAPPER_LINKER -print-file-name=libirc.a    $target_arch `"
+libirc_s="`  $PIN_WRAPPER_LINKER -print-file-name=libirc_s.a  $target_arch `"
+libirc_pic="`  $PIN_WRAPPER_LINKER -print-file-name=libirc_pic.a  $target_arch `"
+libirc_s_pic="`  $PIN_WRAPPER_LINKER -print-file-name=libirc_s_pic.a  $target_arch `"
+
+pinrtlibs=(-lpincrt)
+linkargs=()
+irclibs=($libirc $libirc_s)
+ldmode=""
+scrt1=""
+is_static=0
+is_shared=0
+is_cxx=0
+
+# Iterate over script arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -static)
+            pinrtlibs=(libpincrt.a libpinos.a librscproto.a)
+            is_static=1
+            shift
+            ;;
+        -shared)
+            ldmode=-shared
+            is_shared=1
+            shift
+            ;;
+        -c++)
+            is_cxx=1
+            shift
+            ;;
+        *)
+        linkargs+=("$1")
+        shift
+        ;;
+    esac
+done
+
+if [[ $is_shared -eq 1 && $is_static -eq 1 ]]; then
+    echo "\nCannot specify both '-shared' and '-static'"
+    exit 1
+fi
+
+if [[ $is_shared -eq 0 ]]; then
+   scrt1="$libdir/Scrt1.o"
+fi
+
+if [[ $is_cxx -eq 1 ]]; then
+    pinrtlibs=(-lc++abi -lc++ "${pinrtlibs[@]}")
+fi
+
+if [[ "$target_arch" == "-m32" ]]; then
+    irclibs=($libirc_pic $libirc_s_pic)
+fi
+
+echo " "
+exec "$PIN_WRAPPER_LINKER" $ldmode -Wl,--dynamic-linker,$thisdir/pin.ld.so -nostdlib -nodefaultlibs -m32 -DTARGET_IA32 -DHOST_IA32 -Wl,-melf_i386 \
+-Wl,-z,noexecstack -L$libdir $scrt1 $libdir/crti.o $crtbeginS "${pinrtlibs[@]}"  "${linkargs[@]}" "${irclibs[@]}" \
+$libgcc_eh $libgcc $crtendS $libdir/crtn.o
+
