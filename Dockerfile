@@ -12,7 +12,7 @@ RUN rustup-init -y --no-modify-path --profile minimal --default-toolchain 1.94.1
 RUN cargo install cargo-auditable
 ENV COMP=clang \
     LDFLAGS=-static \
-    SDE_PATH="/opt/sde-external/sde64 --future"
+    SDE_PATH="/opt/sde-external/sde64 -future"
 
 FROM --platform=linux/amd64 fishnet-builder-amd64 AS fishnet-builder-test-amd64
 RUN git clone https://github.com/official-stockfish/Stockfish.git
