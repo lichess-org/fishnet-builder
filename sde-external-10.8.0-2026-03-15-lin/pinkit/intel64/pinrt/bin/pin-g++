@@ -1,3 +1,0 @@
-#!/bin/sh
-thisdir="`cd "$(dirname "$0")"; pwd`"
-exec $thisdir/pin-gcc -D_LIBCPP_HAS_MUSL_LIBC -fabi-version=10  -isystem $thisdir/../include/c++ -lc++abi -lc++ "$@"

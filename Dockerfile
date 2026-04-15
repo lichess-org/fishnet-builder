@@ -3,22 +3,23 @@ WORKDIR /fishnet
 COPY sgerrand.rsa.pub /etc/apk/keys/sgerrand.rsa.pub
 COPY glibc-2.35-r1.apk /opt/glibc.apk
 COPY glibc-bin-2.35-r1.apk /opt/glibc-bin.apk
-COPY sde-external-10.8.0-2026-03-15-lin /opt/sde-external
+COPY sde-external-9.58.0-2025-06-16-lin /opt/sde-external
 COPY config-amd64.toml /usr/local/cargo/config.toml
 RUN apk --no-cache add git make curl clang compiler-rt llvm rustup sccache && (apk add --no-cache /opt/glibc.apk /opt/glibc-bin.apk || echo Partial install intended) && rm /opt/glibc.apk /opt/glibc-bin.apk
 ENV CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH
 RUN rustup-init -y --no-modify-path --profile minimal --default-toolchain 1.94.1 --target x86_64-unknown-linux-musl
 RUN cargo install cargo-auditable
+RUN ln -s /opt/sde-external/misc/ /usr/glibc-compat/lib/ && ln -s /opt/sde-external/intel64/ /usr/glibc-compat/lib/
 ENV COMP=clang \
     LDFLAGS=-static \
-    SDE_PATH="/opt/sde-external/sde64 -nvl"
+    SDE_PATH="/usr/glibc-compat/lib/ld-linux-x86-64.so.2 /opt/sde-external/sde64 -future"
 
 FROM --platform=linux/amd64 fishnet-builder-amd64 AS fishnet-builder-test-amd64
 RUN git clone https://github.com/official-stockfish/Stockfish.git
 WORKDIR Stockfish/src
 RUN make net
-RUN make ARCH=x86-64-avx512icl COMP=$COMP RUN_PREFIX="$SDE_PATH --" profile-build -j
+RUN make ARCH=x86-64-avx512icl COMP=$COMP WINE_PATH="$SDE_PATH --" profile-build -j
 
 FROM --platform=linux/arm64 docker.io/alpine:3.23.3 AS fishnet-builder-arm64
 WORKDIR /fishnet

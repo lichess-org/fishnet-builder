@@ -1,1 +1,0 @@
-#include <pbits/ia32/ipcstat.h>
